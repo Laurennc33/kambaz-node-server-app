@@ -1,4 +1,4 @@
-export default [
+const modules = [
   {
     _id: "M101",
     name: "Introduction to Rocket Propulsion",
@@ -99,3 +99,5 @@ export default [
     ]
   }
 ];
+
+export default modules;

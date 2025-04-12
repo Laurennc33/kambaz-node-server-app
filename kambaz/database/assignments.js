@@ -1,4 +1,4 @@
-export default [
+const assignments = [
   { 
     _id: "A101", 
     title: "Propulsion Assignment", 
@@ -63,3 +63,5 @@ export default [
     points: 120
   }
 ];
+
+export default assignments;
