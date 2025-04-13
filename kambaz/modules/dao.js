@@ -1,5 +1,4 @@
-import { model } from "mongoose";
-import Database from "../database/index.js";
+import model from "./model.js";
 import { v4 as uuidv4 } from "uuid";
 
 export function updateModule(moduleId, moduleUpdates) {

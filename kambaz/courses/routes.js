@@ -11,6 +11,7 @@ export default function CourseRoutes(app) {
     app.get("/api/courses/:cid/users", findUsersForCourse);
      
     app.post("/api/courses", async (req, res) => {
+        console.log("Creating course...");
         const course = await dao.createCourse(req.body);
         const currentUser = req.session["currentUser"];
         if (currentUser) {
@@ -18,6 +19,7 @@ export default function CourseRoutes(app) {
         }
         res.json(course);
     });
+    
      
 
     app.get("/api/courses", async (req, res) => {
@@ -49,11 +51,13 @@ export default function CourseRoutes(app) {
     
 
     app.put("/api/courses/:courseId", async (req, res) => {
+        console.log("Received PUT request for course with ID:", req.params.courseId); // Log the courseId
         const { courseId } = req.params;
         const courseUpdates = req.body;
         const status = await dao.updateCourse(courseId, courseUpdates);
         res.send(status);
     });
+    
 
     
     

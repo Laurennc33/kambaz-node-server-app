@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import model from "./model.js";
 
 export async function findCoursesForUser(userId) {
@@ -19,11 +18,5 @@ export function enrollUserInCourse(user, course) {
 export function unenrollUserFromCourse(user, course) {
   return model.deleteOne({ user, course });
 }
+
  
-
-
-
-// Old enroll ment code
-export function getUserEnrollments(userId) {
-  return Database.enrollments.filter((e) => e.user === userId);
-}

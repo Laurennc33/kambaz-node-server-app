@@ -25,13 +25,24 @@ export default function UserRoutes(app) {
 
     const enrollUserInCourse = async (req, res) => {
         let { uid, cid } = req.params;
+      
         if (uid === "current") {
           const currentUser = req.session["currentUser"];
+          if (!currentUser) {
+            return res.status(401).send({ error: "User not logged in" });
+          }
           uid = currentUser._id;
         }
-        const status = await enrollmentsDao.enrollUserInCourse(uid, cid);
-        res.send(status);
+      
+        try {
+          const status = await enrollmentsDao.enrollUserInCourse(uid, cid);
+          res.status(201).send(status);
+        } catch (error) {
+          console.error("Failed to enroll user:", error);
+          res.status(500).send({ error: "Enrollment failed", details: error.message });
+        }
     };
+      
 
     const unenrollUserFromCourse = async (req, res) => {
         let { uid, cid } = req.params;
@@ -125,7 +136,7 @@ export default function UserRoutes(app) {
         res.sendStatus(200);
     };
 
-    const findCoursesForEnrolledUser = (req, res) => {
+    const findCoursesForEnrolledUser = async (req, res) => {
         let { userId } = req.params;
         if (userId === "current") {
             const currentUser = req.session["currentUser"];
@@ -135,7 +146,7 @@ export default function UserRoutes(app) {
             }
             userId = currentUser._id;
         }
-        const courses = courseDao.findCoursesForEnrolledUser(userId);
+        const courses = await courseDao.findCoursesForEnrolledUser(userId);
         res.json(courses);
     };
 
