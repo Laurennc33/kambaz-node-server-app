@@ -18,19 +18,19 @@ export default function AssignmentRoutes(app) {
     app.put("/api/assignments/:assignmentId", async (req, res) => {
         const { assignmentId } = req.params;
         const assignmentUpdates = req.body;
-        const updatedAssignment = await assignmentDao.updateAssignment(assignmentId, assignmentUpdates);
-        res.json(updatedAssignment);
+        const status = await assignmentDao.updateAssignment(assignmentId, assignmentUpdates);
+        res.send(status);
     });
 
     app.delete("/api/assignments/:assignmentId", async (req, res) => {
         const { assignmentId } = req.params;
-        await assignmentDao.deleteAssignment(assignmentId);
-        res.status(204).send(); 
+        const status = await assignmentDao.deleteAssignment(assignmentId);
+        res.send(status); 
     });
 
-    app.get("/api/assignments/course/:courseId", (req, res) => {
+    app.get("/api/assignments/course/:courseId", async (req, res) => {
         const { courseId } = req.params;
-        const assignments = assignmentDao.findAssignmentsForCourse(courseId);
+        const assignments = await assignmentDao.findAssignmentsForCourse(courseId);
         if (!assignments || assignments.length === 0) {
             return res.status(404).json({ message: "No assignments found for this course" });
         }
