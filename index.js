@@ -10,9 +10,17 @@ import ModuleRoutes from "./kambaz/modules/routes.js";
 import EnrollmentRoutes from './kambaz/enrollments/routes.js';
 import AssignmentRoutes from './kambaz/assignments/routes.js';
 import mongoose from "mongoose";
+import QuizRoutes from './kambaz/quizzes/routes.js';
 
-const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kambaz"
-mongoose.connect(CONNECTION_STRING);
+// MongoDB connection
+const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kambaz";
+mongoose.connect(CONNECTION_STRING)
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((error) => {
+    console.error("MongoDB connection error:", error);
+  });
 
 const app = express()
 app.use(
@@ -41,6 +49,7 @@ CourseRoutes(app);
 ModuleRoutes(app);
 EnrollmentRoutes(app);
 AssignmentRoutes(app);
+QuizRoutes(app)
 Lab5(app);
 Hello(app);
 app.listen(process.env.PORT || 4000);

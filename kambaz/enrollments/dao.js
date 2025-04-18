@@ -21,6 +21,12 @@ export async function enrollUserInCourse(user, course) {
   return model.create(newEnrollment);
 }
 
-export function unenrollUserFromCourse(user, course) {
+export async function unenrollUserFromCourse(user, course) {
   return model.deleteOne({ user, course });
 }
+
+export async function getUserEnrollments(userId) {
+  const enrollments = await model.find({ user: userId }).populate("course");
+  return enrollments;
+}
+

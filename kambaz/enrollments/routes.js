@@ -35,11 +35,11 @@ export default function EnrollmentRoutes(app) {
 
   app.get("/api/enrollments/:userId", async (req, res) => {
     const { userId } = req.params;
-
+  
     if (!userId) {
       return res.status(400).send({ error: "User ID is required" });
     }
-
+  
     try {
       const userEnrollments = await enrollmentsDao.getUserEnrollments(userId);
       res.status(200).send(userEnrollments); 
@@ -48,4 +48,5 @@ export default function EnrollmentRoutes(app) {
       res.status(500).send({ error: "Failed to retrieve enrollments" });
     }
   });
+  
 }
