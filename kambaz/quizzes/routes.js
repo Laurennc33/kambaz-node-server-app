@@ -1,4 +1,6 @@
 import * as quizzesDao from "./dao.js";
+import { updateQuiz } from './dao.js';
+
 
 export default function QuizRoutes(app) {
     // Create quiz
@@ -41,14 +43,31 @@ export default function QuizRoutes(app) {
         const { quizId } = req.params;
         try {
             const quiz = await quizzesDao.findQuizById(quizId);
+            console.log(quiz)
             if (!quiz) {
                 return res.status(404).json({ message: "Quiz not found" });
             }
-            res.json(quiz.questions); 
+            res.json(quiz.questions);
         } catch (error) {
             res.status(500).json({ message: "Error retrieving quiz questions", error: error.message });
         }
     });
+
+    // Get full quiz (metadata + questions)
+    app.get("/api/quizzes/:quizId", async (req, res) => {
+        const { quizId } = req.params;
+        try {
+            const quiz = await quizzesDao.findQuizById(quizId);
+            if (!quiz) {
+                return res.status(404).json({ message: "Quiz not found" });
+            }
+            res.json(quiz); // Send the full quiz
+        } catch (error) {
+            console.error("Error fetching full quiz:", error);
+            res.status(500).json({ message: "Error fetching full quiz", error: error.message });
+        }
+    });
+
 
     // Fetch quiz configuration (metadata like maxAttempts, title, etc.)
     app.get("/api/quizzes/:quizId/config", async (req, res) => {
@@ -69,13 +88,14 @@ export default function QuizRoutes(app) {
     });
 
     // Update entire quiz
-    app.put("/api/quizzes/:quizId", async (req, res) => {
-        const { quizId } = req.params;
+    app.put('/api/quizzes/:quizId', async (req, res) => {
         try {
-            const status = await quizzesDao.updateQuiz(quizId, req.body);
-            res.json(status);
-        } catch (error) {
-            res.status(500).json({ message: "Error updating quiz", error: error.message });
+            const quizId = req.params.quizId;
+            const quizUpdates = req.body;
+            const result = await updateQuiz(quizId, quizUpdates);
+            res.json(result);
+        } catch (err) {
+            res.status(500).json({ message: "Failed to update quiz", error: err.message });
         }
     });
 
@@ -178,5 +198,5 @@ export default function QuizRoutes(app) {
         }
     });
 
-    
+
 }

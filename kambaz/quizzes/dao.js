@@ -2,6 +2,7 @@ import model from "./model.js";
 import QuizAttempt from "./quizattemptmodel.js";
 import { v4 as uuidv4 } from "uuid";
 
+
 // ✅ Helper to normalize question types
 const normalizeType = (type) => {
     const map = {
@@ -65,16 +66,15 @@ export async function createQuiz(quiz) {
 
 
 // Update a quiz
-export function updateQuiz(quizId, quizUpdates) {
-    if (quizUpdates.questions) {
-        quizUpdates.questions = quizUpdates.questions.map((q) => ({
-            ...q,
-            type: normalizeType(q.type),
-        }));
-        quizUpdates.points = calculateTotalPoints(quizUpdates.questions);
+export const updateQuiz = async (quizId, quizUpdates) => {
+    try {
+        // Directly match by _id assuming quizId is a string like "Q201"
+        return await model.updateOne({ _id: quizId }, { $set: quizUpdates });
+    } catch (error) {
+        console.error('Error updating quiz in DAO:', error);
+        throw error;
     }
-    return model.updateOne({ _id: quizId }, { $set: quizUpdates });
-}
+};
 
 // Delete a quiz
 export function deleteQuiz(quizId) {

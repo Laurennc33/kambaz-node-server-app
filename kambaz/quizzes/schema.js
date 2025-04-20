@@ -10,12 +10,6 @@ const questionSchema = new mongoose.Schema({
   question: { type: String, required: true },
   options: [{ type: String }], // used for multiple choice
   correctAnswer: { type: String }, // used for MC and True/False
-  fillInTheBlankAnswers: [         // used for Fill in the Blank
-    {
-      text: { type: String, required: true },
-      isCorrect: { type: Boolean, required: true }
-    }
-  ],
   points: { type: Number, default: 0 },
 }, { _id: false });
 
@@ -27,7 +21,7 @@ const quizSchema = new mongoose.Schema({
   type: { type: String, enum: ['Graded Quiz', 'Practice Quiz', 'Exam']},
   assignmentGroup: { type: String, enum: ['Assignments', 'Quizzes', 'Exams']},
   shuffleAnswers: { type: Boolean},
-  timeLimit: { type: Number, default: 0 },
+  timeLimit: { type: Number },
   multipleAttempts: { type: String},
   showCorrectAnswers: { type: String},
   accessCode: { type: String, default: "" },
