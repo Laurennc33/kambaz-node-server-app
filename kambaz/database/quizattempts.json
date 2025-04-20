@@ -1,0 +1,46 @@
+[
+    {
+      "_id": "123",   
+      "quizId": "Q201",
+      "userId": "234",
+      "answers": [
+        {
+          "questionId": "Q201-1",
+          "answer": "Gyroscope",
+          "points": 10
+        },
+        {
+          "questionId": "Q201-2",
+          "answer": "True",
+          "points": 5
+        },
+        {
+          "questionId": "Q201-3",
+          "answer": "center of gravity",
+          "points": 10
+        }
+      ],
+      "score": 25,
+      "attemptDate": "2023-03-10T12:00:00.000Z"
+    },
+    {
+      "_id": "234",   
+      "quizId": "Q203",
+      "userId": "456",
+      "answers": [
+        {
+          "questionId": "Q203-1",
+          "answer": "Ku-band",
+          "points": 10
+        },
+        {
+          "questionId": "Q203-2",
+          "answer": "geostationary",
+          "points": 10
+        }
+      ],
+      "score": 20,
+      "attemptDate": "2023-03-22T15:00:00.000Z"
+    }
+  ]
+  
